@@ -5,21 +5,31 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class BankAccount implements Serializable {
-    private int accountNumber;
+    private static int accountNumber = 1001;
     private double accountBalance;
     private double automaticDepositAmount;
     private double automaticWithdrawalAmount;
-    protected static final double INTEREST_RATE = 0.03;
+    protected double interestRate;
     private static boolean depositPending = true;
     private static boolean withdrawPending = true;
+    private BankBranch bankBranch;
 
     public BankAccount(int accountNumber, double accountBalance,
                        double automaticDepositAmount,
-                       double automaticWithdrawalAmount) {
+                       double automaticWithdrawalAmount,
+                       BankBranch bankBranch) {
         this.accountNumber = accountNumber;
         this.accountBalance = accountBalance;
         this.automaticDepositAmount = automaticDepositAmount;
         this.automaticWithdrawalAmount = automaticWithdrawalAmount;
+        this.bankBranch = bankBranch;
+    }
+
+    //Overloaded constructor
+    public BankAccount(int accountNumber, int interestRate, BankBranch bankBranch){
+        this.accountNumber = accountNumber;
+        this.interestRate = interestRate;
+        this.bankBranch = bankBranch;
     }
 
     public BankAccount(){
@@ -56,6 +66,14 @@ public class BankAccount implements Serializable {
 
     private void setAutomaticWithdrawalAmount(double automaticWithdrawalAmount) {
         this.automaticWithdrawalAmount = automaticWithdrawalAmount;
+    }
+
+    public BankBranch getBankBranch() {
+        return bankBranch;
+    }
+
+    public void setBankBranch(BankBranch bankBranch) {
+        this.bankBranch = bankBranch;
     }
 
     private void deposit(double depositAmount){
@@ -95,10 +113,24 @@ public class BankAccount implements Serializable {
 
     protected static BankAccount enterAccountData(Customer customer){
         Scanner sc = new Scanner(System.in);
-        int accNumber = Main.getAccountNumber(sc, "Enter the account number : ");
-        while(accNumber < 1000 || accNumber > 9999){
-            accNumber = Main.getAccountNumber(sc, "Enter valid account number : ");
+
+//        int accNumber = Main.getAccountNumber(sc, "Enter the account number : ");
+//        while(accNumber < 1000 || accNumber > 9999){
+//            accNumber = Main.getAccountNumber(sc, "Enter valid account number : ");
+//        }
+
+        //Auto-generating account number between 1000 and 9999
+
+        if(Main.bankAccountList != null){
+            BankAccount bankAccount = Main.bankAccountList.get(Main.bankAccountList.size() - 1);
+            int previousNumber = bankAccount.getAccountNumber();
+            if (previousNumber < 9999){
+                accountNumber = ++previousNumber;
+            }
+        } else{
+            System.out.println("No bank account has been created");
         }
+        System.out.println("Your account number is : " + accountNumber);
 
         double accBalance = Main.getAccountBalance(sc, "Enter the opening account balance ($): ");
         while(accBalance < 0 || accBalance > 100000){
@@ -120,7 +152,7 @@ public class BankAccount implements Serializable {
         //Setting the collected details to the variables of the objects
         //and finally adding the bank account to the array list
         BankAccount accountData = new BankAccount();//This holds the new bank account
-        accountData.setAccountNumber(accNumber);
+        accountData.setAccountNumber(accountNumber);
         accountData.setAccountBalance(accBalance);
         accountData.setAutomaticDepositAmount(deposit);
         accountData.setAutomaticWithdrawalAmount(withdrawal);
@@ -149,7 +181,7 @@ public class BankAccount implements Serializable {
         DecimalFormat decimal = new DecimalFormat("##.##");
         double forecastedBalance = account.getAccountBalance();
         for(int j = 1; j <= noOfYears; j++){
-            forecastedBalance += (forecastedBalance * INTEREST_RATE);
+            forecastedBalance += (forecastedBalance * interestRate);
             System.out.printf("%2s %18s", j, decimal.format(forecastedBalance));
             System.out.println();
         }
@@ -157,7 +189,7 @@ public class BankAccount implements Serializable {
     }
 
     /*Overloaded method for generating yearly forecast*/
-    protected static void computeInterest(BankAccount[] accounts, int count, int noOfYears){
+    protected void computeInterest(BankAccount[] accounts, int count, int noOfYears){
         System.out.println();
 
         for (int i = 0; i < count; i++) {
@@ -172,7 +204,7 @@ public class BankAccount implements Serializable {
             DecimalFormat decimal = new DecimalFormat("##.##");
             double forecastedBalance = accounts[i].getAccountBalance();
             for(int j = 1; j <= noOfYears; j++){
-                forecastedBalance += (forecastedBalance * INTEREST_RATE);
+                forecastedBalance += (forecastedBalance * interestRate);
                 System.out.printf("%2s %18s", j, decimal.format(forecastedBalance));
                 System.out.println();
             }
@@ -186,7 +218,7 @@ public class BankAccount implements Serializable {
         System.out.println();
         System.out.println("Bank Account Number : " + account.getAccountNumber());
         System.out.println("Bank Account Balance : $" + account.getAccountBalance());
-        System.out.println("Annual Interest Rate (%) : " + (INTEREST_RATE * 100));
+        System.out.println("Annual Interest Rate (%) : " + (interestRate * 100));
         System.out.println("Automatic Deposit Amount : $" + account.getAutomaticDepositAmount());
         System.out.println("Automatic Withdrawal Amount : $" + account.getAutomaticWithdrawalAmount());
         System.out.println(Main.SEPARATOR_STRING);

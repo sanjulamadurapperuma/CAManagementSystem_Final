@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     protected static final String SEPARATOR_STRING = "***********************" +
             "***********************************************";
-    private static File customerDetails = new File("CustomerDetail.txt");//Customer objects are stored here
+    private static File customerDetails = new File("CustomerDetails_InterBankingPty.txt");//Customer objects are stored here
     protected static List<Customer> customerList = new ArrayList<>();//Stores all customer objects
     protected static List<BankAccount> bankAccountList = new ArrayList<>();//Stores all the bank accounts of a customer
 
@@ -65,7 +65,11 @@ public class Main {
                 while(noOfYears < 1 || noOfYears > 40){
                     noOfYears = getNoOfYears(sc, "Enter valid number of years");
                 }
-                BankAccount.computeInterest(accounts, count, noOfYears);//Calling the computeInterest method
+                for (int i = 0; i < accounts.length ; i++){
+                    if(accounts[i] != null){
+                        accounts[i].computeInterest(accounts, count, noOfYears);//Calling the computeInterest method
+                    }
+                }
 
             } else if(selectedOption == 2){//Transfer money between accounts
 
@@ -378,7 +382,7 @@ public class Main {
         double interestPerMonth;
         for (BankAccount bankAccount : customer.getBankAccountsList()) {
             if (bankAccount.getAccountNumber() == accNumber){
-                interestPerMonth = (BankAccount.INTEREST_RATE / 12);
+                interestPerMonth = (bankAccount.interestRate / 12);
                 double forecastedBalance = bankAccount.getAccountBalance();
                 for (int j = 1; j <= noOfMonths; j++){
                     double startingBalance = forecastedBalance;
