@@ -1,7 +1,6 @@
 package com.sanjula.InterBankingPty.java.Stage7;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,25 +9,24 @@ public class BankAccount implements Serializable {
     private double accountBalance;
     private double automaticDepositAmount;
     private double automaticWithdrawalAmount;
-    protected double interestRate;
     private static boolean depositPending = true;
     private static boolean withdrawPending = true;
     private BankBranch homeBranch;
 
-    public BankAccount(int accountNumber, double accountBalance,
-                       double automaticDepositAmount,
-                       double automaticWithdrawalAmount,
-                       BankBranch homeBranch) {
-        this.accountNumber = accountNumber;
-        this.accountBalance = accountBalance;
-        this.automaticDepositAmount = automaticDepositAmount;
-        this.automaticWithdrawalAmount = automaticWithdrawalAmount;
-        this.homeBranch = homeBranch;
-    }
+//    public BankAccount(int accountNumber, double accountBalance,
+//                       double automaticDepositAmount,
+//                       double automaticWithdrawalAmount,
+//                       BankBranch homeBranch) {
+//        this.accountNumber = accountNumber;
+//        this.accountBalance = accountBalance;
+//        this.automaticDepositAmount = automaticDepositAmount;
+//        this.automaticWithdrawalAmount = automaticWithdrawalAmount;
+//        this.homeBranch = homeBranch;
+//    }
 
     //Overloaded constructor
     public BankAccount(int accountNumber, double accountBalance,
-                       double interestRate, BankBranch homeBranch){
+                       BankBranch homeBranch){
         //Do while accountNumber is in the bankAccountsList
         //Generate random number while > 1000 and  < 9999
         //For each account in the bankAccountsList check whether random number equals any bank account's number
@@ -50,13 +48,11 @@ public class BankAccount implements Serializable {
         this.accountNumber = accountNumber;
         System.out.println("Your account number is : " + accountNumber);
         this.accountBalance = accountBalance;
-        this.interestRate = interestRate;
         this.homeBranch = homeBranch;
     }
 
     public BankAccount(){
-        accountNumber = 0;
-        interestRate = 0;
+        accountBalance = 0.00;
     }
 
     protected int getAccountNumber() {
@@ -83,13 +79,6 @@ public class BankAccount implements Serializable {
         this.automaticDepositAmount = automaticDepositAmount;
     }
 
-    protected double getAutomaticWithdrawalAmount() {
-        return automaticWithdrawalAmount;
-    }
-
-    private void setAutomaticWithdrawalAmount(double automaticWithdrawalAmount) {
-        this.automaticWithdrawalAmount = automaticWithdrawalAmount;
-    }
 
     public BankBranch getHomeBranch() {
         return homeBranch;
@@ -130,8 +119,7 @@ public class BankAccount implements Serializable {
                 + accountNumber + "\nAccount Balance : "
                 + accountBalance + "\nAutomatic Deposit Amount : "
                 + automaticDepositAmount +
-                "\nAutomatic Withdrawal Amount : "
-                + automaticWithdrawalAmount;
+                "\nAutomatic Withdrawal Amount : ";
     }
 
 //    protected BankAccount enterAccountData(Customer customer){
@@ -226,7 +214,7 @@ public class BankAccount implements Serializable {
             accBalance = Main.getAccountBalance(sc, "Enter valid opening account balance ($) : ");
         }
 
-        BankAccount account = new BankAccount(accountNumber, accBalance, interestRate, homeBranch);
+        BankAccount account = new BankAccount(accountNumber, accBalance, homeBranch);
         Main.bankAccountList.add(account);
         if (customer != null){
             customer.setBankAccountsList(Main.bankAccountList);

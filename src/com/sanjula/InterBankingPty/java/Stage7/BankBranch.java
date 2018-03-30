@@ -1,7 +1,5 @@
 package com.sanjula.InterBankingPty.java.Stage7;
 
-import java.util.Scanner;
-
 public class BankBranch {
     private int bsbNumber;
     private String address;
@@ -37,7 +35,4 @@ public class BankBranch {
         this.postcode = postcode;
     }
 
-    public void getBranchDetails(){
-
-    }
 }

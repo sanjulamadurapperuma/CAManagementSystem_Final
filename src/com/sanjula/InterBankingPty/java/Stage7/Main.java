@@ -95,7 +95,7 @@ public class Main {
                     System.err.println("Error checking for customer details.");
                 }
             } else if(selectedOption == 3){//Generate monthly forecast table
-                generateForecastTable(customer);//Call the generateForecastTable method
+//                generateForecastTable(customer);//Call the generateForecastTable method
 
             } else if (selectedOption == 4){//Generate Yearly forecast table
 
@@ -325,119 +325,119 @@ public class Main {
 
 
 
-    public static double validateAutomaticDeposit(Scanner scanner, String message){
-        double depositAmount;
+//    public static double validateAutomaticDeposit(Scanner scanner, String message){
+//        double depositAmount;
+//
+//        do {
+//            System.out.print(message);
+//            while(!scanner.hasNextDouble()){
+//                System.out.println("Invalid deposit amount. Please enter a number.");
+//                scanner.next();
+//            }
+//            depositAmount = scanner.nextDouble();
+//            if (!(depositAmount >= 0)){
+//                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
+//            }
+//        }while(depositAmount < 0);
+//        return depositAmount;
+//    }
+//
+//    public static double validateAutomaticWithdrawal(Scanner scanner, String message){
+//        double withdrawalAmount;
+//        do{
+//            System.out.print(message);
+//            while(!scanner.hasNextDouble()){
+//                System.out.println("Invalid input. Please enter a number.");
+//                scanner.next();
+//            }
+//            withdrawalAmount = scanner.nextDouble();
+//            if(!(withdrawalAmount >= 0)){
+//                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
+//            }
+//        }while (withdrawalAmount < 0);
+//
+//        return withdrawalAmount;
+//    }
 
-        do {
-            System.out.print(message);
-            while(!scanner.hasNextDouble()){
-                System.out.println("Invalid deposit amount. Please enter a number.");
-                scanner.next();
-            }
-            depositAmount = scanner.nextDouble();
-            if (!(depositAmount >= 0)){
-                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
-            }
-        }while(depositAmount < 0);
-        return depositAmount;
-    }
+//    private static void generateForecastTable(Customer customer){
+//        Scanner scanner = new Scanner(System.in);
+//        int accNumber = getAccountNumber(scanner,
+//                "Please enter the account number : ");
+//        while (accNumber < 1000 || accNumber> 9999){
+//            accNumber = getAccountNumber(scanner, "Enter valid bank account number : ");
+//        }
+//        int noOfMonths = getNoOfMonths(scanner, "Enter the number of " +
+//                "months you want the forecast to be calculated for : ");
+//        while(noOfMonths < 1){
+//            noOfMonths = getNoOfMonths(scanner, "Enter valid number of months : ");
+//        }
+//
+//        System.out.printf("%40s", "Account Balance Forecast");
+//        System.out.println();
+//        System.out.println("-----------------------------------------------------------");
+//        System.out.printf("%5s %10s %20s %20s", "YEAR", "MONTH", "STARTING BALANCE", "ENDING BALANCE");
+//        System.out.println();
+//        System.out.println("-----------------------------------------------------------");
+//
+//
+//        DecimalFormat decimal = new DecimalFormat("##.##");
+//        double interestPerMonth;
+//        for (BankAccount bankAccount : customer.getBankAccountsList()) {
+//            if (bankAccount.getAccountNumber() == accNumber){
+//                interestPerMonth = (bankAccount.interestRate / 12);
+//                double forecastedBalance = bankAccount.getAccountBalance();
+//                for (int j = 1; j <= noOfMonths; j++){
+//                    double startingBalance = forecastedBalance;
+//                    forecastedBalance += (forecastedBalance * interestPerMonth) +
+//                            bankAccount.getAutomaticDepositAmount() -
+//                            bankAccount.getAutomaticWithdrawalAmount();
+//
+//                    int yearNo = j/12;
+//                    System.out.printf("%5s %10s %20s %20s", yearNo, j, decimal.format(startingBalance),
+//                            decimal.format(forecastedBalance));
+//                    System.out.println();
+//
+//                }
+//            }
+//
+//        }
+//        System.out.println();
+//    }
 
-    public static double validateAutomaticWithdrawal(Scanner scanner, String message){
-        double withdrawalAmount;
-        do{
-            System.out.print(message);
-            while(!scanner.hasNextDouble()){
-                System.out.println("Invalid input. Please enter a number.");
-                scanner.next();
-            }
-            withdrawalAmount = scanner.nextDouble();
-            if(!(withdrawalAmount >= 0)){
-                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
-            }
-        }while (withdrawalAmount < 0);
-
-        return withdrawalAmount;
-    }
-
-    private static void generateForecastTable(Customer customer){
-        Scanner scanner = new Scanner(System.in);
-        int accNumber = getAccountNumber(scanner,
-                "Please enter the account number : ");
-        while (accNumber < 1000 || accNumber> 9999){
-            accNumber = getAccountNumber(scanner, "Enter valid bank account number : ");
-        }
-        int noOfMonths = getNoOfMonths(scanner, "Enter the number of " +
-                "months you want the forecast to be calculated for : ");
-        while(noOfMonths < 1){
-            noOfMonths = getNoOfMonths(scanner, "Enter valid number of months : ");
-        }
-
-        System.out.printf("%40s", "Account Balance Forecast");
-        System.out.println();
-        System.out.println("-----------------------------------------------------------");
-        System.out.printf("%5s %10s %20s %20s", "YEAR", "MONTH", "STARTING BALANCE", "ENDING BALANCE");
-        System.out.println();
-        System.out.println("-----------------------------------------------------------");
-
-
-        DecimalFormat decimal = new DecimalFormat("##.##");
-        double interestPerMonth;
-        for (BankAccount bankAccount : customer.getBankAccountsList()) {
-            if (bankAccount.getAccountNumber() == accNumber){
-                interestPerMonth = (bankAccount.interestRate / 12);
-                double forecastedBalance = bankAccount.getAccountBalance();
-                for (int j = 1; j <= noOfMonths; j++){
-                    double startingBalance = forecastedBalance;
-                    forecastedBalance += (forecastedBalance * interestPerMonth) +
-                            bankAccount.getAutomaticDepositAmount() -
-                            bankAccount.getAutomaticWithdrawalAmount();
-
-                    int yearNo = j/12;
-                    System.out.printf("%5s %10s %20s %20s", yearNo, j, decimal.format(startingBalance),
-                            decimal.format(forecastedBalance));
-                    System.out.println();
-
-                }
-            }
-
-        }
-        System.out.println();
-    }
-
-    private static int getNoOfMonths(Scanner scanner, String message){
-        int noOfMonths;
-        do{
-            System.out.print(message);
-            while(!scanner.hasNextInt()){
-                System.out.println("Invalid input. Please enter a number from 1 - 12.");
-                scanner.next();
-            }
-            noOfMonths = scanner.nextInt();
-            if (!(noOfMonths >= 1)){
-                System.out.println("Invalid month number. Please try again.");
-            }
-        }while(noOfMonths < 1);
-        return noOfMonths;
-    }
-
-    private static int getNoOfYears(Scanner scanner, String message){
-        int noOfYears;
-        do{
-            System.out.println(message);
-            while(!scanner.hasNextInt()){
-                System.err.println("Invalid Input. Please enter a positive number between 1 and 40");
-                System.out.println();
-                scanner.next();
-            }
-
-            noOfYears = scanner.nextInt();
-            if (!(noOfYears >= 1 && noOfYears <= 40)){
-                System.err.println("Invalid Number of Years. Please enter a number between 1 and 40");
-                System.out.println();
-            }
-        }while(noOfYears < 1);
-        return noOfYears;
-    }
+//    private static int getNoOfMonths(Scanner scanner, String message){
+//        int noOfMonths;
+//        do{
+//            System.out.print(message);
+//            while(!scanner.hasNextInt()){
+//                System.out.println("Invalid input. Please enter a number from 1 - 12.");
+//                scanner.next();
+//            }
+//            noOfMonths = scanner.nextInt();
+//            if (!(noOfMonths >= 1)){
+//                System.out.println("Invalid month number. Please try again.");
+//            }
+//        }while(noOfMonths < 1);
+//        return noOfMonths;
+//    }
+//
+//    private static int getNoOfYears(Scanner scanner, String message){
+//        int noOfYears;
+//        do{
+//            System.out.println(message);
+//            while(!scanner.hasNextInt()){
+//                System.err.println("Invalid Input. Please enter a positive number between 1 and 40");
+//                System.out.println();
+//                scanner.next();
+//            }
+//
+//            noOfYears = scanner.nextInt();
+//            if (!(noOfYears >= 1 && noOfYears <= 40)){
+//                System.err.println("Invalid Number of Years. Please enter a number between 1 and 40");
+//                System.out.println();
+//            }
+//        }while(noOfYears < 1);
+//        return noOfYears;
+//    }
 
     protected static void dataPersistency(List<Customer> customerList){
 
