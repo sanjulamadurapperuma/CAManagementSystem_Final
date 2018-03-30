@@ -20,6 +20,7 @@ public class Main {
 
         Customer customer = login(customerList);//Customer is shown the login menu
 
+
         do{//If selected option = 0, exit the program
 
             selectedOption = displayMenu();//Displays the customer's main menu
@@ -32,7 +33,8 @@ public class Main {
 
                 for (int i = 0; i < accounts.length; i++){
 
-                    accounts[i] = BankAccount.enterAccountData(customer);
+                    BankAccount bankAccount = new BankAccount();
+                    accounts[i] = bankAccount.enterAccountData(customer);
 
                     System.out.println();
                     System.out.print("Do you want to continue creating a new " +
@@ -59,17 +61,17 @@ public class Main {
                     }
                 }
 
-                int noOfYears = getNoOfYears(sc,
-                        "Enter the number of years (between 1 and 40)," +
-                                " the account will earn interest : ");
-                while(noOfYears < 1 || noOfYears > 40){
-                    noOfYears = getNoOfYears(sc, "Enter valid number of years");
-                }
-                for (int i = 0; i < accounts.length ; i++){
-                    if(accounts[i] != null){
-                        accounts[i].computeInterest(accounts, count, noOfYears);//Calling the computeInterest method
-                    }
-                }
+//                int noOfYears = getNoOfYears(sc,
+//                        "Enter the number of years (between 1 and 40)," +
+//                                " the account will earn interest : ");
+//                while(noOfYears < 1 || noOfYears > 40){
+//                    noOfYears = getNoOfYears(sc, "Enter valid number of years");
+//                }
+//                for (int i = 0; i < accounts.length ; i++){
+//                    if(accounts[i] != null){
+//                        accounts[i].computeInterest(accounts, count, noOfYears);//Calling the computeInterest method
+//                    }
+//                }
 
             } else if(selectedOption == 2){//Transfer money between accounts
 
@@ -97,31 +99,31 @@ public class Main {
 
             } else if (selectedOption == 4){//Generate Yearly forecast table
 
-                Scanner sc = new Scanner(System.in);
-                //Requesting the account number from the user
-                int accNumber = getAccountNumber(sc,
-                        "Please enter the account number : ");
-                while (accNumber < 1000 || accNumber> 9999){
-                    accNumber = getAccountNumber(sc, "Enter valid bank account number : ");
-                }
-
-                if (customer != null){
-                    //Iterate through each bank account in the customer's bankAccountList
-                    //Request the amount of years the forecast should be generated for
-                    for (BankAccount bankAccount : customer.getBankAccountsList()){
-                        if (bankAccount.getAccountNumber() == accNumber){
-                            int noOfYears = getNoOfYears(sc,
-                                    "Enter the number of years (between 1 and 40), " +
-                                            "the account will earn interest : ");
-                            while(noOfYears < 1 || noOfYears > 40){
-                                noOfYears = getNoOfYears(sc, "Enter valid number of years");
-                            }
-                            //Call the computeInterest method for the specified bank account
-                            bankAccount.computeInterest(bankAccount, noOfYears);
-                            break;
-                        }
-                    }
-                }
+//                Scanner sc = new Scanner(System.in);
+//                //Requesting the account number from the user
+//                int accNumber = getAccountNumber(sc,
+//                        "Please enter the account number : ");
+//                while (accNumber < 1000 || accNumber> 9999){
+//                    accNumber = getAccountNumber(sc, "Enter valid bank account number : ");
+//                }
+//
+//                if (customer != null){
+//                    //Iterate through each bank account in the customer's bankAccountList
+//                    //Request the amount of years the forecast should be generated for
+//                    for (BankAccount bankAccount : customer.getBankAccountsList()){
+//                        if (bankAccount.getAccountNumber() == accNumber){
+//                            int noOfYears = getNoOfYears(sc,
+//                                    "Enter the number of years (between 1 and 40), " +
+//                                            "the account will earn interest : ");
+//                            while(noOfYears < 1 || noOfYears > 40){
+//                                noOfYears = getNoOfYears(sc, "Enter valid number of years");
+//                            }
+//                            //Call the computeInterest method for the specified bank account
+//                            bankAccount.computeInterest(bankAccount, noOfYears);
+//                            break;
+//                        }
+//                    }
+//                }
 
             }else if (selectedOption == 0){//User enters 0 to exit the program
                 //The customer objects are saved into the text file specified by calling the dataPersistency method

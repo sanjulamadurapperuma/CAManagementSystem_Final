@@ -13,25 +13,31 @@ public class BankBranch {
         this.postcode = postcode;
     }
 
+    public int getBsbNumber() {
+        return bsbNumber;
+    }
+
+    public void setBsbNumber(int bsbNumber) {
+        this.bsbNumber = bsbNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(int postcode) {
+        this.postcode = postcode;
+    }
+
     public void getBranchDetails(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println();
-        System.out.println("=================================");
-        System.out.println("Please enter details of the Bank Branch");
-        System.out.println();
-        System.out.print("Enter BSB Number : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a 6-digit number");
-            sc.next();
-        }
-        bsbNumber = sc.nextInt();
-        System.out.println("Enter the address : ");
-        address = sc.nextLine();
-        System.out.println("Enter the postcode : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a valid postcode number");
-            sc.next();
-        }
-        postcode = sc.nextInt();
+
     }
 }
