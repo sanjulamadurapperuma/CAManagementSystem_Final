@@ -5,11 +5,10 @@ import java.util.Scanner;
 public class SavingsAccount extends BankAccount {
     protected double interestRate;
 
-    public SavingsAccount(int accountNumber, double accountBalance,
-                          double interestRate, BankBranch homeBranch) {
-        super(accountNumber, accountBalance, homeBranch);
+    public SavingsAccount(double accountBalance,
+                          BankBranch homeBranch) {
+        super(accountBalance, homeBranch);
         this.interestRate = 0.03;
-        this.interestRate = interestRate;
     }
 
     public SavingsAccount(){
@@ -26,41 +25,21 @@ public class SavingsAccount extends BankAccount {
     }
 
     @Override
-    protected SavingsAccount enterAccountData(Customer customer){
+    protected BankAccount enterAccountData(Customer customer){
+        //BankBranch object
+        homeBranch = getHomeBranchDetails();
+
         Scanner sc = new Scanner(System.in);
-
-        System.out.println();
-        System.out.println("=================================");
-        System.out.println("Please enter details of the Bank Branch");
-        System.out.println();
-        System.out.print("Enter BSB Number : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a 6-digit number");
-            sc.next();
-        }
-        int bsbNumber = sc.nextInt();
-        System.out.println("Enter the address : ");
-        String address = sc.nextLine();
-        System.out.println("Enter the postcode : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a valid postcode number");
-            sc.next();
-        }
-        int postcode = sc.nextInt();
-
-        //Filling the homeBranch object
-        homeBranch.setBsbNumber(bsbNumber);
-        homeBranch.setAddress(address);
-        homeBranch.setPostcode(postcode);
-
-
         double accBalance = Main.getAccountBalance(sc, "Enter the opening account balance ($): ");
         while(accBalance < 0 || accBalance > 100000){
             accBalance = Main.getAccountBalance(sc, "Enter valid opening account balance ($) : ");
         }
+        SavingsAccount account = new SavingsAccount(accBalance, homeBranch);
+        account.setAccountNumber(accountNumber);
+        account.setAccountBalance(accBalance);
+        account.setInterestRate(interestRate);
+        account.setHomeBranch(homeBranch);
 
-        SavingsAccount account = new SavingsAccount(accountNumber, accBalance,
-                interestRate, homeBranch);
         Main.bankAccountList.add(account);
         if (customer != null){
             customer.setBankAccountsList(Main.bankAccountList);

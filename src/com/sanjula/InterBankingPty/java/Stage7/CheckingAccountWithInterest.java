@@ -5,53 +5,30 @@ import java.util.Scanner;
 public class CheckingAccountWithInterest extends CheckingAccount {
     protected SavingsAccount savingsAccount;
 
-    public CheckingAccountWithInterest(int accountNumber,
-                                       double accountBalance, BankBranch homeBranch,
-                                       double monthlyFee,
-                                       int noOfChecksAllowed,
+    public CheckingAccountWithInterest(double accountBalance, BankBranch homeBranch,
                                        SavingsAccount savingsAccount) {
-        super(accountNumber, accountBalance, homeBranch, monthlyFee, noOfChecksAllowed);
+        super(accountBalance, homeBranch);
         this.savingsAccount = savingsAccount;
         savingsAccount.setInterestRate(0.0002);
     }
 
     public CheckingAccountWithInterest(){
-        accountBalance = 0.00;
-        savingsAccount.setInterestRate(0.00);
+    }
+
+    public SavingsAccount getSavingsAccount() {
+        return savingsAccount;
+    }
+
+    public void setSavingsAccount(SavingsAccount savingsAccount) {
+        this.savingsAccount = savingsAccount;
     }
 
     @Override
     protected CheckingAccountWithInterest enterAccountData(Customer customer){
         Scanner sc = new Scanner(System.in);
 
-
-
-
-
-
-        System.out.println();
-        System.out.println("=================================");
-        System.out.println("Please enter details of the Bank Branch");
-        System.out.println();
-        System.out.print("Enter BSB Number : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a 6-digit number");
-            sc.next();
-        }
-        int bsbNumber = sc.nextInt();
-        System.out.println("Enter the address : ");
-        String address = sc.nextLine();
-        System.out.println("Enter the postcode : ");
-        while(!sc.hasNextInt()){
-            System.out.println("Please enter a valid postcode number");
-            sc.next();
-        }
-        int postcode = sc.nextInt();
-
-        //Filling the homeBranch object
-        homeBranch.setBsbNumber(bsbNumber);
-        homeBranch.setAddress(address);
-        homeBranch.setPostcode(postcode);
+        //BankBranch object
+        homeBranch = getHomeBranchDetails();
 
 
         double accBalance = Main.getAccountBalance(sc, "Enter the opening account balance ($): ");
@@ -59,8 +36,14 @@ public class CheckingAccountWithInterest extends CheckingAccount {
             accBalance = Main.getAccountBalance(sc, "Enter valid opening account balance ($) : ");
         }
 
-        CheckingAccountWithInterest account = new CheckingAccountWithInterest(accountNumber, accBalance,
-                homeBranch, monthlyFee, noOfChecksAllowed, savingsAccount);
+        CheckingAccountWithInterest account = new CheckingAccountWithInterest();
+        account.setAccountNumber(accountNumber);
+        account.setMonthlyFee(monthlyFee);
+        account.setNoOfChecksAllowed(noOfChecksAllowed);
+        account.setAccountBalance(accBalance);
+        account.setHomeBranch(homeBranch);
+        account.setSavingsAccount(savingsAccount);
+
         Main.bankAccountList.add(account);
         if (customer != null){
             customer.setBankAccountsList(Main.bankAccountList);
@@ -71,6 +54,22 @@ public class CheckingAccountWithInterest extends CheckingAccount {
         System.out.println();
 
         return account;
+    }
+
+    @Override
+    public void displayAccount(BankAccount account){
+        System.out.println("=====The details of your new Checking account are : =====");
+        System.out.println();
+        System.out.println("Checking Account Number : " + account.getAccountNumber());
+        System.out.println("Checking Account Balance : $" + account.getAccountBalance());
+        System.out.println("Checking Account Interest Rate : " + (savingsAccount.getInterestRate() * 100) + "%");
+        System.out.println("Checking Account monthly fee : $" + monthlyFee);
+        System.out.println("Number of checks allowed per month : " + noOfChecksAllowed);
+        System.out.println();
+        System.out.println("Bank Branch BSB Number : " + getHomeBranch().getBsbNumber());
+        System.out.println("Bank Branch Address : " + getHomeBranch().getAddress());
+        System.out.println("Bank Branch Postcode : " + getHomeBranch().getPostcode());
+        System.out.println(Main.SEPARATOR_STRING);
     }
 
 }

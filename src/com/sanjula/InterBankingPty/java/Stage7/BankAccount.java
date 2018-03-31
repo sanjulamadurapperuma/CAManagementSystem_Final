@@ -15,27 +15,24 @@ public class BankAccount implements Serializable {
     }
 
     //Overloaded constructor
-    public BankAccount(int accountNumber, double accountBalance,
+    public BankAccount(double accountBalance,
                        BankBranch homeBranch){
         //Do while accountNumber is in the bankAccountsList
         //Generate random number while > 1000 and  < 9999
         //For each account in the bankAccountsList check whether random number equals any bank account's number
         //If not assign random number to current account number
-        boolean isTrue = false;
+        boolean isAccountNumberExists = false;
+        int randomAccNum;
         do {
             Random accNumber = new Random();
-            int randomAccNum = accNumber.nextInt((9999 - 1000) + 1) + 1000;
+            randomAccNum = accNumber.nextInt((9999 - 1000) + 1) + 1000;
             for (BankAccount bankAccount : Main.bankAccountList) {
-                if((randomAccNum != bankAccount.getAccountNumber())){
-                    randomAccNum = accountNumber;
-
-                } else{
-                    isTrue = true;
+                if((randomAccNum == bankAccount.getAccountNumber())){
+                    isAccountNumberExists = true;
                 }
             }
-        }while (!isTrue);
-        this.accountNumber = accountNumber;
-        System.out.println("Your account number is : " + accountNumber);
+        }while (isAccountNumberExists);
+        this.accountNumber = randomAccNum;
         this.accountBalance = accountBalance;
         this.homeBranch = homeBranch;
     }
@@ -156,8 +153,35 @@ public class BankAccount implements Serializable {
 //    }
 
     protected BankAccount enterAccountData(Customer customer){
-        Scanner sc = new Scanner(System.in);
+        //BankBranch object
+        homeBranch = getHomeBranchDetails();
 
+        Scanner sc = new Scanner(System.in);
+        double accBalance = Main.getAccountBalance(sc, "Enter the opening account balance ($): ");
+        System.out.println("accBalance " + accBalance);
+        while(accBalance < 0 || accBalance > 100000){
+            accBalance = Main.getAccountBalance(sc, "Enter valid opening account balance ($) : ");
+        }
+
+        BankAccount account = new BankAccount(accBalance, homeBranch);
+        account.setAccountNumber(accountNumber);
+        account.setAccountBalance(accBalance);
+        account.setHomeBranch(homeBranch);
+        Main.bankAccountList.add(account);
+        if (customer != null){
+            customer.setBankAccountsList(Main.bankAccountList);
+        }
+        Main.customerList.add(customer);
+        Main.dataPersistency(Main.customerList);
+        System.out.println();
+        System.out.println("=====Bank Account created successfully.=====");
+        System.out.println();
+
+        return account;
+    }
+
+    public BankBranch getHomeBranchDetails(){
+        Scanner sc = new Scanner(System.in);
         System.out.println();
         System.out.println("=================================");
         System.out.println("Please enter details of the Bank Branch");
@@ -168,37 +192,19 @@ public class BankAccount implements Serializable {
             sc.next();
         }
         int bsbNumber = sc.nextInt();
-        System.out.println("Enter the address : ");
+        System.out.print("Enter the address : ");
+        sc.nextLine();
         String address = sc.nextLine();
-        System.out.println("Enter the postcode : ");
+        System.out.print("Enter the postcode : ");
         while(!sc.hasNextInt()){
             System.out.println("Please enter a valid postcode number");
             sc.next();
         }
         int postcode = sc.nextInt();
 
-        //Filling the homeBranch object
-        homeBranch.setBsbNumber(bsbNumber);
-        homeBranch.setAddress(address);
-        homeBranch.setPostcode(postcode);
-
-
-        double accBalance = Main.getAccountBalance(sc, "Enter the opening account balance ($): ");
-        while(accBalance < 0 || accBalance > 100000){
-            accBalance = Main.getAccountBalance(sc, "Enter valid opening account balance ($) : ");
-        }
-
-        BankAccount account = new BankAccount(accountNumber, accBalance, homeBranch);
-        Main.bankAccountList.add(account);
-        if (customer != null){
-            customer.setBankAccountsList(Main.bankAccountList);
-        }
-        Main.customerList.add(customer);
-        Main.dataPersistency(Main.customerList);
-        System.out.println("=====Bank Account created successfully.=====");
-        System.out.println();
-
-        return account;
+        BankBranch branch = new BankBranch(bsbNumber, address, postcode);
+        setHomeBranch(branch);
+        return homeBranch;
     }
 
 

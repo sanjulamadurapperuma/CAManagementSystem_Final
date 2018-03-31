@@ -1,9 +1,14 @@
 package com.sanjula.InterBankingPty.java.Stage7;
 
-public class BankBranch {
+import java.io.Serializable;
+
+public class BankBranch implements Serializable {
     private int bsbNumber;
     private String address;
     private int postcode;
+
+    public BankBranch(){
+    }
 
     public BankBranch(int bsbNumber, String address, int postcode) {
         this.bsbNumber = bsbNumber;

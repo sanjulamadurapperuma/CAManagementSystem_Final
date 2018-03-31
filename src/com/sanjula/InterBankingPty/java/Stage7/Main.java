@@ -29,11 +29,12 @@ public class Main {
                 int selectedOptionAccount = displayAccountCreation();
                 Scanner sc = new Scanner(System.in);//Scanner declared
 
+                BankBranch branch = new BankBranch(0,"",0);
                 if(selectedOptionAccount == 1){
                     String continue2;//String to check whether the user wants to continue creating new bank accounts
 
                     do{
-                        SavingsAccount savingsAccount = new SavingsAccount();
+                        SavingsAccount savingsAccount = new SavingsAccount(0,branch);
                         savingsAccount.enterAccountData(customer);
 
                         System.out.println();
@@ -42,8 +43,6 @@ public class Main {
                         continue2 = sc.nextLine();
                     } while(!continue2.equalsIgnoreCase("No"));
 
-                    //Now the user will be asked to enter the number of
-                    //years the forecast has to be shown for.
                     if (customer != null){
                         for (BankAccount account : bankAccountList){
                             if (account != null){
@@ -58,7 +57,7 @@ public class Main {
                     String continue2;//String to check whether the user wants to continue creating new bank accounts
 
                     do{
-                        CheckingAccount checkingAccount = new CheckingAccount();
+                        CheckingAccount checkingAccount = new CheckingAccount(0, branch);
                         checkingAccount.enterAccountData(customer);
 
                         System.out.println();
@@ -81,10 +80,12 @@ public class Main {
 
                 } else if(selectedOptionAccount == 3){
                     CheckingAccountWithInterest[] accountWithInterests = new CheckingAccountWithInterest[5];
+                    SavingsAccount savingsAccount = new SavingsAccount(0, branch);
                     String continue2;//String to check whether the user wants to continue creating new bank accounts
 
                     for (int i = 0; i < accountWithInterests.length; i++){
-                        CheckingAccountWithInterest checkingAccount = new CheckingAccountWithInterest();
+                        CheckingAccountWithInterest checkingAccount =
+                                new CheckingAccountWithInterest(0, branch, savingsAccount);
                         accountWithInterests[i] = checkingAccount.enterAccountData(customer);
 
                         System.out.println();
@@ -95,17 +96,6 @@ public class Main {
                             break;
                         }
                     }
-
-                    do{
-                        CheckingAccountWithInterest checkingAccountWithInterest =
-                                new CheckingAccountWithInterest();
-                        checkingAccountWithInterest.enterAccountData(customer);
-
-                        System.out.println();
-                        System.out.print("Do you want to continue creating a new " +
-                                "Bank Account? If yes, enter 'Yes', else 'No' : ");
-                        continue2 = sc.nextLine();
-                    } while(!continue2.equalsIgnoreCase("No"));
 
                     if (customer != null){
                         for (BankAccount account : bankAccountList){
@@ -336,19 +326,17 @@ public class Main {
         double accountBalance;
         do{
             System.out.print(message);
-            while(!scanner.hasNextInt()){
+            while(!scanner.hasNextDouble()){
                 System.err.println("Invalid input, please enter a positive number.");
                 scanner.next();
             }
             accountBalance = scanner.nextDouble();
-
             if(!(accountBalance >= 0 || accountBalance <= 100000)){
                 System.err.println("Invalid account balance!!! It has to be a positive " +
                         "number and be within the range of $0 to $100000");
             }
 
         }while(accountBalance < 0 || accountBalance > 100000);
-
         return accountBalance;
     }
 
@@ -512,6 +500,10 @@ public class Main {
             System.out.println("Fatal Internal Error");
         }
         return customerList;
+    }
+
+    public void produceReport(){
+        
     }
 
 }
