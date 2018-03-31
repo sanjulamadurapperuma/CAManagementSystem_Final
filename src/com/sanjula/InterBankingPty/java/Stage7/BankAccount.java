@@ -7,22 +7,12 @@ import java.util.Scanner;
 public class BankAccount implements Serializable {
     protected int accountNumber;
     protected double accountBalance;
-    protected double automaticDepositAmount;
-    protected double automaticWithdrawalAmount;
     protected static boolean depositPending = true;
     protected static boolean withdrawPending = true;
     protected BankBranch homeBranch;
 
-//    public BankAccount(int accountNumber, double accountBalance,
-//                       double automaticDepositAmount,
-//                       double automaticWithdrawalAmount,
-//                       BankBranch homeBranch) {
-//        this.accountNumber = accountNumber;
-//        this.accountBalance = accountBalance;
-//        this.automaticDepositAmount = automaticDepositAmount;
-//        this.automaticWithdrawalAmount = automaticWithdrawalAmount;
-//        this.homeBranch = homeBranch;
-//    }
+    public BankAccount(){
+    }
 
     //Overloaded constructor
     public BankAccount(int accountNumber, double accountBalance,
@@ -50,9 +40,6 @@ public class BankAccount implements Serializable {
         this.homeBranch = homeBranch;
     }
 
-    public BankAccount(){
-    }
-
     protected int getAccountNumber() {
         return accountNumber;
     }
@@ -68,15 +55,6 @@ public class BankAccount implements Serializable {
     protected void setAccountBalance(double accountBalance) {
         this.accountBalance = accountBalance;
     }
-
-    protected double getAutomaticDepositAmount() {
-        return automaticDepositAmount;
-    }
-
-    private void setAutomaticDepositAmount(double automaticDepositAmount) {
-        this.automaticDepositAmount = automaticDepositAmount;
-    }
-
 
     public BankBranch getHomeBranch() {
         return homeBranch;
@@ -115,9 +93,7 @@ public class BankAccount implements Serializable {
     public String toString() {
         return "Details of Bank Account - "
                 + accountNumber + "\nAccount Balance : "
-                + accountBalance + "\nAutomatic Deposit Amount : "
-                + automaticDepositAmount +
-                "\nAutomatic Withdrawal Amount : ";
+                + accountBalance;
     }
 
 //    protected BankAccount enterAccountData(Customer customer){

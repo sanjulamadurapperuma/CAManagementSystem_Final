@@ -26,52 +26,97 @@ public class Main {
             selectedOption = displayMenu();//Displays the customer's main menu
 
             if(selectedOption == 1){//Creates a new bank account
+                int selectedOptionAccount = displayAccountCreation();
                 Scanner sc = new Scanner(System.in);//Scanner declared
 
-                BankAccount[] accounts = new BankAccount[10];//Array of bank accounts. The limit is 10
-                String continue2;//String to check whether the user wants to continue creating new bank accounts
+                if(selectedOptionAccount == 1){
+                    String continue2;//String to check whether the user wants to continue creating new bank accounts
 
-                for (int i = 0; i < accounts.length; i++){
+                    do{
+                        SavingsAccount savingsAccount = new SavingsAccount();
+                        savingsAccount.enterAccountData(customer);
 
-                    BankAccount bankAccount = new BankAccount();
-                    accounts[i] = bankAccount.enterAccountData(customer);
+                        System.out.println();
+                        System.out.print("Do you want to continue creating a new " +
+                                "Bank Account? If yes, enter 'Yes', else 'No' : ");
+                        continue2 = sc.nextLine();
+                    } while(!continue2.equalsIgnoreCase("No"));
 
-                    System.out.println();
-                    System.out.print("Do you want to continue creating a new " +
-                            "Bank Account? If yes, enter 'Yes', else 'No' : ");
-                    continue2 = sc.nextLine();
-                    if (continue2.equalsIgnoreCase("No")){
-                        break;
-                    }
-                }
+                    //Now the user will be asked to enter the number of
+                    //years the forecast has to be shown for.
+                    if (customer != null){
+                        for (BankAccount account : bankAccountList){
+                            if (account != null){
+                                if(account instanceof SavingsAccount){
+                                    account.displayAccount(account);
+                                }//end of inner if
+                            }//end of outer if
+                        }//end of for loop
+                    }//end of main if
 
-                int count = 0;//Counter variable for iterating
-                // through elements of the array
+                } else if(selectedOptionAccount == 2){
+                    String continue2;//String to check whether the user wants to continue creating new bank accounts
 
-                //Now the user will be asked to enter the number of
-                //years the forecast has to be shown for.
-                if (customer != null){
-                    for (BankAccount account : accounts){
-                        if(accounts[count] != null){
-                            account.displayAccount(account);
-                            count++;
-                        } else{
+                    do{
+                        CheckingAccount checkingAccount = new CheckingAccount();
+                        checkingAccount.enterAccountData(customer);
+
+                        System.out.println();
+                        System.out.print("Do you want to continue creating a new " +
+                                "Bank Account? If yes, enter 'Yes', else 'No' : ");
+                        continue2 = sc.nextLine();
+                    } while(!continue2.equalsIgnoreCase("No"));
+
+                    //Now the user will be asked to enter the number of
+                    //years the forecast has to be shown for.
+                    if (customer != null){
+                        for (BankAccount account : bankAccountList){
+                            if (account != null){
+                                if(account instanceof CheckingAccount){
+                                    account.displayAccount(account);
+                                }//end of inner if
+                            }//end of outer if
+                        }//end of for loop
+                    }//end of main if
+
+                } else if(selectedOptionAccount == 3){
+                    CheckingAccountWithInterest[] accountWithInterests = new CheckingAccountWithInterest[5];
+                    String continue2;//String to check whether the user wants to continue creating new bank accounts
+
+                    for (int i = 0; i < accountWithInterests.length; i++){
+                        CheckingAccountWithInterest checkingAccount = new CheckingAccountWithInterest();
+                        accountWithInterests[i] = checkingAccount.enterAccountData(customer);
+
+                        System.out.println();
+                        System.out.print("Do you want to continue creating a new " +
+                                "Bank Account? If yes, enter 'Yes', else 'No' : ");
+                        continue2 = sc.nextLine();
+                        if (continue2.equalsIgnoreCase("No")){
                             break;
                         }
                     }
-                }
 
-//                int noOfYears = getNoOfYears(sc,
-//                        "Enter the number of years (between 1 and 40)," +
-//                                " the account will earn interest : ");
-//                while(noOfYears < 1 || noOfYears > 40){
-//                    noOfYears = getNoOfYears(sc, "Enter valid number of years");
-//                }
-//                for (int i = 0; i < accounts.length ; i++){
-//                    if(accounts[i] != null){
-//                        accounts[i].computeInterest(accounts, count, noOfYears);//Calling the computeInterest method
-//                    }
-//                }
+                    do{
+                        CheckingAccountWithInterest checkingAccountWithInterest =
+                                new CheckingAccountWithInterest();
+                        checkingAccountWithInterest.enterAccountData(customer);
+
+                        System.out.println();
+                        System.out.print("Do you want to continue creating a new " +
+                                "Bank Account? If yes, enter 'Yes', else 'No' : ");
+                        continue2 = sc.nextLine();
+                    } while(!continue2.equalsIgnoreCase("No"));
+
+                    if (customer != null){
+                        for (BankAccount account : bankAccountList){
+                            if (account != null){
+                                if(account instanceof CheckingAccountWithInterest){
+                                    account.displayAccount(account);
+                                }//end of inner if
+                            }//end of outer if
+                        }//end of for loop
+                    }//end of main if
+                }//end of else if statement
 
             } else if(selectedOption == 2){//Transfer money between accounts
 
@@ -90,42 +135,13 @@ public class Main {
                             toAccountNumber, amountToTransfer);//Calling the transfer method passing in the
                     // customer object
 
-
                 } else{
                     System.err.println("Error checking for customer details.");
                 }
             } else if(selectedOption == 3){//Generate monthly forecast table
 //                generateForecastTable(customer);//Call the generateForecastTable method
 
-            } else if (selectedOption == 4){//Generate Yearly forecast table
-
-//                Scanner sc = new Scanner(System.in);
-//                //Requesting the account number from the user
-//                int accNumber = getAccountNumber(sc,
-//                        "Please enter the account number : ");
-//                while (accNumber < 1000 || accNumber> 9999){
-//                    accNumber = getAccountNumber(sc, "Enter valid bank account number : ");
-//                }
-//
-//                if (customer != null){
-//                    //Iterate through each bank account in the customer's bankAccountList
-//                    //Request the amount of years the forecast should be generated for
-//                    for (BankAccount bankAccount : customer.getBankAccountsList()){
-//                        if (bankAccount.getAccountNumber() == accNumber){
-//                            int noOfYears = getNoOfYears(sc,
-//                                    "Enter the number of years (between 1 and 40), " +
-//                                            "the account will earn interest : ");
-//                            while(noOfYears < 1 || noOfYears > 40){
-//                                noOfYears = getNoOfYears(sc, "Enter valid number of years");
-//                            }
-//                            //Call the computeInterest method for the specified bank account
-//                            bankAccount.computeInterest(bankAccount, noOfYears);
-//                            break;
-//                        }
-//                    }
-//                }
-
-            }else if (selectedOption == 0){//User enters 0 to exit the program
+            } else if (selectedOption == 0){//User enters 0 to exit the program
                 //The customer objects are saved into the text file specified by calling the dataPersistency method
                 dataPersistency(customerList);
                 System.exit(0);//Exit the program
@@ -172,7 +188,6 @@ public class Main {
                             isValidCustomer = false;
                         }
                     }
-
                 }
                 isValidCustomer = false;
             } while (!isValidCustomer);
@@ -223,6 +238,21 @@ public class Main {
         return null;
     }
 
+    private static int displayAccountCreation(){
+        System.out.println("What type of bank account do you want to create?");
+        System.out.println("Enter '1' to create a savings account");
+        System.out.println("Enter '2' to create a checking account");
+        System.out.println("Enter '3' to create checking accounts with interest");
+        int selectedOption = getSelectedOption();
+
+        while(selectedOption < 1 || selectedOption > 3){
+            System.err.println("Please try again. Enter a" +
+                    "number which represents the option you want to select");
+            selectedOption = getSelectedOption();
+        }
+        return selectedOption;
+    }
+
 
     private static int displayLoginMenu(){
         Scanner scanner = new Scanner(System.in);
@@ -241,8 +271,8 @@ public class Main {
         System.out.println("Enter '1' to create a new Bank Account.");
         System.out.println("Enter '2' to transfer money between bank accounts");
         System.out.println("Enter '3' to generate a monthly forecast for your bank account balance.");
-        System.out.println("Enter '4' to forecast the yearly balance of account based on " +
-                "the interest rate");
+//        System.out.println("Enter '4' to forecast the yearly balance of account based on " +
+//                "the interest rate");
         System.out.println("Enter '0' to exit the program.");
         int selectedOption = getSelectedOption();
 

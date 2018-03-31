@@ -73,7 +73,8 @@ public class SavingsAccount extends BankAccount {
         return account;
     }
 
-    protected void displayAccount(SavingsAccount account){
+    @Override
+    protected void displayAccount(BankAccount account){
         System.out.println("=====The details of your new savings account are : =====");
         System.out.println();
         System.out.println("Savings Account Number : " + account.getAccountNumber());

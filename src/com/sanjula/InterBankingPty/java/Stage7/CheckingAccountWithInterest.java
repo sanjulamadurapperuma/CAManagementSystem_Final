@@ -24,6 +24,11 @@ public class CheckingAccountWithInterest extends CheckingAccount {
     protected CheckingAccountWithInterest enterAccountData(Customer customer){
         Scanner sc = new Scanner(System.in);
 
+
+
+
+
+
         System.out.println();
         System.out.println("=================================");
         System.out.println("Please enter details of the Bank Branch");

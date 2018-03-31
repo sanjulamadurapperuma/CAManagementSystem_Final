@@ -74,7 +74,8 @@ public class CheckingAccount extends BankAccount{
         return account;
     }
 
-    public void display(CheckingAccount account){
+    @Override
+    public void displayAccount(BankAccount account){
         System.out.println("=====The details of your new Checking account are : =====");
         System.out.println();
         System.out.println("Checking Account Number : " + account.getAccountNumber());
