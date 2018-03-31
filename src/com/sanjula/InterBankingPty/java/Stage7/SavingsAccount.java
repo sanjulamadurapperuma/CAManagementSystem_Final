@@ -1,12 +1,25 @@
 package com.sanjula.InterBankingPty.java.Stage7;
 
 public class SavingsAccount extends BankAccount {
-    private double interestRate;
+    protected double interestRate;
 
     public SavingsAccount(int accountNumber, double accountBalance,
                           double interestRate, BankBranch homeBranch) {
         super(accountNumber, accountBalance, homeBranch);
         this.interestRate = 0.03;
+        this.interestRate = interestRate;
+    }
+
+    public SavingsAccount(){
+        accountBalance = 0.00;
+        interestRate = 0.00;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
 

@@ -3,8 +3,8 @@ package com.sanjula.InterBankingPty.java.Stage7;
 import java.util.Scanner;
 
 public class CheckingAccount extends BankAccount{
-    private double monthlyFee;
-    private int noOfChecksAllowed;
+    protected double monthlyFee;
+    protected int noOfChecksAllowed;
 
     public CheckingAccount(int accountNumber, double accountBalance,
                            BankBranch homeBranch, double monthlyFee,

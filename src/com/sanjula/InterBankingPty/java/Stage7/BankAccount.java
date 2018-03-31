@@ -5,13 +5,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class BankAccount implements Serializable {
-    private int accountNumber;
-    private double accountBalance;
-    private double automaticDepositAmount;
-    private double automaticWithdrawalAmount;
-    private static boolean depositPending = true;
-    private static boolean withdrawPending = true;
-    private BankBranch homeBranch;
+    protected int accountNumber;
+    protected double accountBalance;
+    protected double automaticDepositAmount;
+    protected double automaticWithdrawalAmount;
+    protected static boolean depositPending = true;
+    protected static boolean withdrawPending = true;
+    protected BankBranch homeBranch;
 
 //    public BankAccount(int accountNumber, double accountBalance,
 //                       double automaticDepositAmount,
@@ -40,7 +40,6 @@ public class BankAccount implements Serializable {
                     randomAccNum = accountNumber;
 
                 } else{
-//                    accountNumber = 0;
                     isTrue = true;
                 }
             }
@@ -52,7 +51,6 @@ public class BankAccount implements Serializable {
     }
 
     public BankAccount(){
-        accountBalance = 0.00;
     }
 
     protected int getAccountNumber() {
