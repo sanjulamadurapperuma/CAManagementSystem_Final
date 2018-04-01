@@ -16,16 +16,16 @@ public class SavingsAccount extends BankAccount {
         interestRate = 0.00;
     }
 
-    public double getInterestRate() {
+    protected double getInterestRate() {
         return interestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    protected void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
 
     @Override
-    protected BankAccount enterAccountData(Customer customer){
+    protected SavingsAccount enterAccountData(Customer customer){
         //BankBranch object
         homeBranch = getHomeBranchDetails();
 
@@ -45,25 +45,10 @@ public class SavingsAccount extends BankAccount {
             customer.setBankAccountsList(Main.bankAccountList);
         }
         Main.customerList.add(customer);
-//        Main.dataPersistency(Main.customerList);
         System.out.println("=====Bank Account created successfully.=====");
         System.out.println();
 
         return account;
-    }
-
-    @Override
-    protected void displayAccount(BankAccount account){
-        System.out.println("=====The details of your new savings account are : =====");
-        System.out.println();
-        System.out.println("Savings Account Number : " + account.getAccountNumber());
-        System.out.println("Savings Account Balance : $" + account.getAccountBalance());
-        System.out.println("Savings Account Interest : " + (interestRate * 100) + "%");
-        System.out.println();
-        System.out.println("Bank Branch BSB Number : " + getHomeBranch().getBsbNumber());
-        System.out.println("Bank Branch Address : " + getHomeBranch().getAddress());
-        System.out.println("Bank Branch Postcode : " + getHomeBranch().getPostcode());
-        System.out.println(Main.SEPARATOR_STRING);
     }
 
 }

@@ -12,29 +12,33 @@ public class CheckingAccount extends BankAccount{
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Please enter the Monthly Fee for the Checking Account : ");
+        while(!sc.hasNextDouble()){
+            System.out.println("Please enter a valid monthly fee");
+            sc.next();
+        }
         this.monthlyFee = sc.nextDouble();
         System.out.println();
         System.out.print("Please enter the number of checks allowed per month : ");
-        this.noOfChecksAllowed = sc.nextInt();
+        this.noOfChecksAllowed = Main.getSelectedOption();
     }
 
     public CheckingAccount(){
 
     }
 
-    public double getMonthlyFee() {
+    protected double getMonthlyFee() {
         return monthlyFee;
     }
 
-    public void setMonthlyFee(double monthlyFee) {
+    protected void setMonthlyFee(double monthlyFee) {
         this.monthlyFee = monthlyFee;
     }
 
-    public int getNoOfChecksAllowed() {
+    protected int getNoOfChecksAllowed() {
         return noOfChecksAllowed;
     }
 
-    public void setNoOfChecksAllowed(int noOfChecksAllowed) {
+    protected void setNoOfChecksAllowed(int noOfChecksAllowed) {
         this.noOfChecksAllowed = noOfChecksAllowed;
     }
 
@@ -62,25 +66,10 @@ public class CheckingAccount extends BankAccount{
             customer.setBankAccountsList(Main.bankAccountList);
         }
         Main.customerList.add(customer);
-//        Main.dataPersistency(Main.customerList);
         System.out.println("=====Bank Account created successfully.=====");
         System.out.println();
 
         return account;
     }
 
-    @Override
-    public void displayAccount(BankAccount account){
-        System.out.println("=====The details of your new Checking account are : =====");
-        System.out.println();
-        System.out.println("Checking Account Number : " + account.getAccountNumber());
-        System.out.println("Checking Account Balance : $" + account.getAccountBalance());
-        System.out.println("Checking Account monthly fee : $" + monthlyFee);
-        System.out.println("Number of checks allowed per month : " + noOfChecksAllowed);
-        System.out.println();
-        System.out.println("Bank Branch BSB Number : " + getHomeBranch().getBsbNumber());
-        System.out.println("Bank Branch Address : " + getHomeBranch().getAddress());
-        System.out.println("Bank Branch Postcode : " + getHomeBranch().getPostcode());
-        System.out.println(Main.SEPARATOR_STRING);
-    }
 }

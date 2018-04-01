@@ -16,27 +16,27 @@ public class BankBranch implements Serializable {
         this.postcode = postcode;
     }
 
-    public int getBsbNumber() {
+    protected int getBsbNumber() {
         return bsbNumber;
     }
 
-    public void setBsbNumber(int bsbNumber) {
+    protected void setBsbNumber(int bsbNumber) {
         this.bsbNumber = bsbNumber;
     }
 
-    public String getAddress() {
+    protected String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    protected void setAddress(String address) {
         this.address = address;
     }
 
-    public int getPostcode() {
+    protected int getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    protected void setPostcode(int postcode) {
         this.postcode = postcode;
     }
 

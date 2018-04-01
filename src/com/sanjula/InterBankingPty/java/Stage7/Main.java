@@ -1,7 +1,6 @@
 package com.sanjula.InterBankingPty.java.Stage7;
 
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,15 +44,25 @@ public class Main {
                         continue2 = sc.nextLine();
                     } while(!continue2.equalsIgnoreCase("No"));
 
-                    if (customer != null){
-                        for (BankAccount account : bankAccountList){
-                            if (account != null){
-                                if(account instanceof SavingsAccount){
-                                    account.displayAccount(account);
-                                }//end of inner if
-                            }//end of outer if
-                        }//end of for loop
-                    }//end of main if
+                    //Try-Catch block to check whether customer is null
+                    try{
+                        if (customer != null){
+                            for (BankAccount account : bankAccountList){
+                                if (account != null){
+                                    if(account instanceof SavingsAccount){
+                                        account.displayAccount(account.getAccountNumber(),
+                                                account.getAccountBalance(),
+                                                ((SavingsAccount) account).getInterestRate()
+                                                , account.homeBranch);
+                                    }//end of inner if
+                                }//end of outer if
+                            }//end of for loop
+                        }//end of main if
+                    } catch (NullPointerException e){
+                        System.out.println("Internal Error occured : Your account was not associated with the" +
+                                "savings account you just created");
+                    }
+
 
                 } else if(selectedOptionAccount == 2){
                     String continue2;//String to check whether the user wants to continue creating new bank accounts
@@ -68,17 +77,24 @@ public class Main {
                         continue2 = sc.nextLine();
                     } while(!continue2.equalsIgnoreCase("No"));
 
-                    //Now the user will be asked to enter the number of
-                    //years the forecast has to be shown for.
-                    if (customer != null){
-                        for (BankAccount account : bankAccountList){
-                            if (account != null){
-                                if(account instanceof CheckingAccount){
-                                    account.displayAccount(account);
-                                }//end of inner if
-                            }//end of outer if
-                        }//end of for loop
-                    }//end of main if
+                    //Try-Catch block to check whether customer is null
+                    try{
+                        if (customer != null){
+                            for (BankAccount account : bankAccountList){
+                                if (account != null){
+                                    if(account instanceof CheckingAccount){
+                                        account.displayAccount(account.getAccountNumber(), account.getAccountBalance()
+                                                , ((CheckingAccount) account).monthlyFee,
+                                                ((CheckingAccount) account).noOfChecksAllowed, account.homeBranch);
+                                    }//end of inner if
+                                }//end of outer if
+                            }//end of for loop
+                        }//end of main if
+                    } catch (NullPointerException e){
+                        System.out.println("Internal Error occured : Your account was not associated with the" +
+                                "checking account you just created");
+                    }
+
 
                 } else if(selectedOptionAccount == 3){
                     CheckingAccountWithInterest[] accountWithInterests = new CheckingAccountWithInterest[5];
@@ -99,15 +115,28 @@ public class Main {
                         }
                     }
 
-                    if (customer != null){
-                        for (BankAccount account : bankAccountList){
-                            if (account != null){
-                                if(account instanceof CheckingAccountWithInterest){
-                                    account.displayAccount(account);
-                                }//end of inner if
-                            }//end of outer if
-                        }//end of for loop
-                    }//end of main if
+                    //Try-Catch block to check whether customer is null
+                    try{
+                        if (customer != null){
+                            for (BankAccount account : bankAccountList){
+                                if (account != null){
+                                    if(account instanceof CheckingAccountWithInterest){
+                                        account.displayAccount(account.getAccountNumber(),
+                                                account.getAccountBalance(),
+                                                ((CheckingAccountWithInterest) account).getSavingsAccount().getInterestRate(),
+                                                ((CheckingAccountWithInterest) account).monthlyFee,
+                                                ((CheckingAccountWithInterest) account).noOfChecksAllowed,
+                                                account.homeBranch);
+                                    }//end of inner if
+                                }//end of outer if
+                            }//end of for loop
+                        }//end of main if
+
+                    } catch (NullPointerException e){
+                        System.out.println("Internal Error occured : Your account was not associated with the" +
+                                "checking account you just created");
+                    }
+
                 }//end of else if statement
 
             } else if(selectedOption == 2){//Transfer money between accounts
@@ -130,9 +159,8 @@ public class Main {
                 } else{
                     System.err.println("Error checking for customer details.");
                 }
-            } else if(selectedOption == 3){//Generate monthly forecast table
-//                generateForecastTable(customer);//Call the generateForecastTable method
-                produceReport("Report - 1", bankAccountList);
+            } else if(selectedOption == 3){//Generate Bank Account Report
+                produceReport("Bank Account Report ", bankAccountList);
 
             } else if (selectedOption == 0){//User enters 0 to exit the program
                 //The customer objects are saved into the text file specified by calling the dataPersistency method
@@ -264,9 +292,6 @@ public class Main {
         System.out.println("Enter '1' to create a new Bank Account.");
         System.out.println("Enter '2' to transfer money between bank accounts");
         System.out.println("Enter '3' to produce a report for all of your accounts");
-//        System.out.println("Enter '3' to generate a monthly forecast for your bank account balance.");
-//        System.out.println("Enter '4' to forecast the yearly balance of account based on " +
-//                "the interest rate");
         System.out.println("Enter '0' to exit the program.");
         int selectedOption = getSelectedOption();
 
@@ -344,123 +369,6 @@ public class Main {
         return accountBalance;
     }
 
-
-
-
-//    public static double validateAutomaticDeposit(Scanner scanner, String message){
-//        double depositAmount;
-//
-//        do {
-//            System.out.print(message);
-//            while(!scanner.hasNextDouble()){
-//                System.out.println("Invalid deposit amount. Please enter a number.");
-//                scanner.next();
-//            }
-//            depositAmount = scanner.nextDouble();
-//            if (!(depositAmount >= 0)){
-//                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
-//            }
-//        }while(depositAmount < 0);
-//        return depositAmount;
-//    }
-//
-//    public static double validateAutomaticWithdrawal(Scanner scanner, String message){
-//        double withdrawalAmount;
-//        do{
-//            System.out.print(message);
-//            while(!scanner.hasNextDouble()){
-//                System.out.println("Invalid input. Please enter a number.");
-//                scanner.next();
-//            }
-//            withdrawalAmount = scanner.nextDouble();
-//            if(!(withdrawalAmount >= 0)){
-//                System.out.println("Invalid deposit amount. Please enter a positive deposit amount.");
-//            }
-//        }while (withdrawalAmount < 0);
-//
-//        return withdrawalAmount;
-//    }
-
-//    private static void generateForecastTable(Customer customer){
-//        Scanner scanner = new Scanner(System.in);
-//        int accNumber = getAccountNumber(scanner,
-//                "Please enter the account number : ");
-//        while (accNumber < 1000 || accNumber> 9999){
-//            accNumber = getAccountNumber(scanner, "Enter valid bank account number : ");
-//        }
-//        int noOfMonths = getNoOfMonths(scanner, "Enter the number of " +
-//                "months you want the forecast to be calculated for : ");
-//        while(noOfMonths < 1){
-//            noOfMonths = getNoOfMonths(scanner, "Enter valid number of months : ");
-//        }
-//
-//        System.out.printf("%40s", "Account Balance Forecast");
-//        System.out.println();
-//        System.out.println("-----------------------------------------------------------");
-//        System.out.printf("%5s %10s %20s %20s", "YEAR", "MONTH", "STARTING BALANCE", "ENDING BALANCE");
-//        System.out.println();
-//        System.out.println("-----------------------------------------------------------");
-//
-//
-//        DecimalFormat decimal = new DecimalFormat("##.##");
-//        double interestPerMonth;
-//        for (BankAccount bankAccount : customer.getBankAccountsList()) {
-//            if (bankAccount.getAccountNumber() == accNumber){
-//                interestPerMonth = (bankAccount.interestRate / 12);
-//                double forecastedBalance = bankAccount.getAccountBalance();
-//                for (int j = 1; j <= noOfMonths; j++){
-//                    double startingBalance = forecastedBalance;
-//                    forecastedBalance += (forecastedBalance * interestPerMonth) +
-//                            bankAccount.getAutomaticDepositAmount() -
-//                            bankAccount.getAutomaticWithdrawalAmount();
-//
-//                    int yearNo = j/12;
-//                    System.out.printf("%5s %10s %20s %20s", yearNo, j, decimal.format(startingBalance),
-//                            decimal.format(forecastedBalance));
-//                    System.out.println();
-//
-//                }
-//            }
-//
-//        }
-//        System.out.println();
-//    }
-
-//    private static int getNoOfMonths(Scanner scanner, String message){
-//        int noOfMonths;
-//        do{
-//            System.out.print(message);
-//            while(!scanner.hasNextInt()){
-//                System.out.println("Invalid input. Please enter a number from 1 - 12.");
-//                scanner.next();
-//            }
-//            noOfMonths = scanner.nextInt();
-//            if (!(noOfMonths >= 1)){
-//                System.out.println("Invalid month number. Please try again.");
-//            }
-//        }while(noOfMonths < 1);
-//        return noOfMonths;
-//    }
-//
-//    private static int getNoOfYears(Scanner scanner, String message){
-//        int noOfYears;
-//        do{
-//            System.out.println(message);
-//            while(!scanner.hasNextInt()){
-//                System.err.println("Invalid Input. Please enter a positive number between 1 and 40");
-//                System.out.println();
-//                scanner.next();
-//            }
-//
-//            noOfYears = scanner.nextInt();
-//            if (!(noOfYears >= 1 && noOfYears <= 40)){
-//                System.err.println("Invalid Number of Years. Please enter a number between 1 and 40");
-//                System.out.println();
-//            }
-//        }while(noOfYears < 1);
-//        return noOfYears;
-//    }
-
     protected static void dataPersistency(List<Customer> customerList){
 
         FileOutputStream fileOutputStream = null;
@@ -506,29 +414,30 @@ public class Main {
         return customerList;
     }
 
-    public static void produceReport(String reportTitle, List<BankAccount> bankAccountList){
+    private static void produceReport(String reportTitle, List<BankAccount> bankAccountList){
         if(bankAccountList != null){
-            System.out.printf("%55s", reportTitle);
+            System.out.printf("%75s", reportTitle);
+            System.out.println();
             System.out.println();
             System.out.println("SAVINGS ACCOUNTS");
             System.out.println("-----------------------------------------------------------" +
-                    "-------------------------------------------------");
-            System.out.printf("%5s %15s %10s %10s %10s %10s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "BSB NO",
+                    "-------------------");
+            System.out.printf("%5s %13s %12s %10s %12s %15s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "BSB NO",
                     "ADDRESS", "POSTCODE");
             System.out.println();
             System.out.println("-----------------------------------------------------------" +
-                    "-------------------------------------------------");
+                    "-------------------");
 
 
             for (BankAccount account : bankAccountList) {
                 if(account instanceof SavingsAccount){
-                    System.out.printf("%5s %10s %10s %10s %10s %10s", account.getAccountNumber(),
-                            account.getAccountBalance(), ((SavingsAccount) account).getInterestRate(),
+                    System.out.printf("%5s %14s %11s %15s %10s %12s", account.getAccountNumber(),
+                            account.getAccountBalance(), (((SavingsAccount) account).getInterestRate() * 100),
                             account.getHomeBranch().getBsbNumber(), account.getHomeBranch().getAddress(),
                             account.getHomeBranch().getPostcode());
                     System.out.println();
-                    System.out.println("--------------------------------------------------------------------" +
-                            "-----------------------------------------------------------");
+                    System.out.println("-----------------------------------------------------------" +
+                            "-------------------");
                 }
             }
 
@@ -537,25 +446,23 @@ public class Main {
 
             System.out.println("CHECKING ACCOUNTS");
             System.out.println("-----------------------------------------------------------" +
-                    "----------------------------------------------------------------------");
-            System.out.printf("%5s %10s %15s %25s %10s %10s %10s", "ACCOUNT NO", "BALANCE", "MONTHLY FEE",
+                    "-------------------------------------------");
+            System.out.printf("%5s %12s %15s %22s %10s %13s %13s", "ACCOUNT NO", "BALANCE($)", "MONTHLY FEE($)",
                     "NO OF CHECKS ALLOWED", "BSB NO", "ADDRESS", "POSTCODE");
             System.out.println();
             System.out.println("-----------------------------------------------------------" +
-                    "----------------------------------------------------------------------");
-            System.out.println();
+                    "-------------------------------------------");
 
             for (BankAccount bankAccount: bankAccountList) {
                 if(bankAccount instanceof CheckingAccount){
-                    System.out.printf("%5s %10s %15s %25s %10s %10s %10s", bankAccount.getAccountNumber(),
+                    System.out.printf("%5s %16s %14s %20s %14s %13s %13s", bankAccount.getAccountNumber(),
                             bankAccount.getAccountBalance(), ((CheckingAccount) bankAccount).getMonthlyFee(),
                             ((CheckingAccount) bankAccount).getNoOfChecksAllowed(),
                             bankAccount.getHomeBranch().getBsbNumber(), bankAccount.getHomeBranch().getAddress(),
                             bankAccount.getHomeBranch().getPostcode());
                     System.out.println();
-                    System.out.println("--------------------------------------------------------------------");
-//                    System.out.println();
-//                    System.out.println("--------------------------------------------------------------------");
+                    System.out.println("-----------------------------------------------------------" +
+                            "-------------------------------------------");
                 }
             }
 
@@ -564,28 +471,31 @@ public class Main {
 
             System.out.println("CHECKING ACCOUNTS WITH INTEREST");
             System.out.println("-----------------------------------------------------------" +
-                    "----------------------------------------------------------------------");
-            System.out.printf("%5s %10s %15s %25s %10s %10s %10s %10s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "MONTHLY FEE",
+                    "--------------------------------------------------------------------");
+            System.out.printf("%5s %15s %14s %15s %25s %10s %15s %15s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "MONTHLY FEE",
                     "NO OF CHECKS ALLOWED", "BSB NO", "ADDRESS", "POSTCODE");
             System.out.println();
             System.out.println("-----------------------------------------------------------" +
-                    "----------------------------------------------------------------------");
+                    "--------------------------------------------------------------------");
 
             for (BankAccount bankAccount: bankAccountList) {
                 if(bankAccount instanceof CheckingAccountWithInterest){
-                    System.out.printf("%5s %10s %15s %25s %10s %10s %10s %10s", bankAccount.getAccountNumber(),
+                    System.out.printf("%5s %17s %14s %15s %25s %13s %13s %15s", bankAccount.getAccountNumber(),
                             bankAccount.getAccountBalance(),
-                            ((CheckingAccountWithInterest) bankAccount).getSavingsAccount().getInterestRate(),
+                            (((CheckingAccountWithInterest) bankAccount).getSavingsAccount().getInterestRate() * 100),
                             ((CheckingAccountWithInterest) bankAccount).getMonthlyFee(),
                             ((CheckingAccountWithInterest) bankAccount).getNoOfChecksAllowed(),
                             bankAccount.getHomeBranch().getBsbNumber(), bankAccount.getHomeBranch().getAddress(),
                             bankAccount.getHomeBranch().getPostcode());
                     System.out.println();
-                    System.out.println("--------------------------------------------------------------------");
-                    System.out.println("--------------------------------------------------------------------");
+                    System.out.println("-----------------------------------------------------------" +
+                            "--------------------------------------------------------------------");
                 }
             }
-
+            System.out.println();
+            System.out.println("==================================================================" +
+                    "End of Report==================================================================");
+            System.out.println();
         }
 
     }
