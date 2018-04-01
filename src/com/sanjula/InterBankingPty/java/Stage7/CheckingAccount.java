@@ -52,9 +52,9 @@ public class CheckingAccount extends BankAccount{
 
         CheckingAccount account = new CheckingAccount();
         account.setAccountNumber(accountNumber);
+        account.setAccountBalance(accBalance);
         account.setMonthlyFee(monthlyFee);
         account.setNoOfChecksAllowed(noOfChecksAllowed);
-        account.setAccountBalance(accBalance);
         account.setHomeBranch(homeBranch);
 
         Main.bankAccountList.add(account);
@@ -62,7 +62,7 @@ public class CheckingAccount extends BankAccount{
             customer.setBankAccountsList(Main.bankAccountList);
         }
         Main.customerList.add(customer);
-        Main.dataPersistency(Main.customerList);
+//        Main.dataPersistency(Main.customerList);
         System.out.println("=====Bank Account created successfully.=====");
         System.out.println();
 

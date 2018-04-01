@@ -19,7 +19,9 @@ public class Main {
         int selectedOption;//Instance variable used to store the selected option from the menu
 
         Customer customer = login(customerList);//Customer is shown the login menu
-
+        if (customer != null) {
+            bankAccountList = customer.getBankAccountsList();
+        }
 
         do{//If selected option = 0, exit the program
 
@@ -130,6 +132,7 @@ public class Main {
                 }
             } else if(selectedOption == 3){//Generate monthly forecast table
 //                generateForecastTable(customer);//Call the generateForecastTable method
+                produceReport("Report - 1", bankAccountList);
 
             } else if (selectedOption == 0){//User enters 0 to exit the program
                 //The customer objects are saved into the text file specified by calling the dataPersistency method
@@ -260,7 +263,8 @@ public class Main {
         System.out.println("What do you want to do?");
         System.out.println("Enter '1' to create a new Bank Account.");
         System.out.println("Enter '2' to transfer money between bank accounts");
-        System.out.println("Enter '3' to generate a monthly forecast for your bank account balance.");
+        System.out.println("Enter '3' to produce a report for all of your accounts");
+//        System.out.println("Enter '3' to generate a monthly forecast for your bank account balance.");
 //        System.out.println("Enter '4' to forecast the yearly balance of account based on " +
 //                "the interest rate");
         System.out.println("Enter '0' to exit the program.");
@@ -502,8 +506,88 @@ public class Main {
         return customerList;
     }
 
-    public void produceReport(){
-        
+    public static void produceReport(String reportTitle, List<BankAccount> bankAccountList){
+        if(bankAccountList != null){
+            System.out.printf("%55s", reportTitle);
+            System.out.println();
+            System.out.println("SAVINGS ACCOUNTS");
+            System.out.println("-----------------------------------------------------------" +
+                    "-------------------------------------------------");
+            System.out.printf("%5s %15s %10s %10s %10s %10s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "BSB NO",
+                    "ADDRESS", "POSTCODE");
+            System.out.println();
+            System.out.println("-----------------------------------------------------------" +
+                    "-------------------------------------------------");
+
+
+            for (BankAccount account : bankAccountList) {
+                if(account instanceof SavingsAccount){
+                    System.out.printf("%5s %10s %10s %10s %10s %10s", account.getAccountNumber(),
+                            account.getAccountBalance(), ((SavingsAccount) account).getInterestRate(),
+                            account.getHomeBranch().getBsbNumber(), account.getHomeBranch().getAddress(),
+                            account.getHomeBranch().getPostcode());
+                    System.out.println();
+                    System.out.println("--------------------------------------------------------------------" +
+                            "-----------------------------------------------------------");
+                }
+            }
+
+            System.out.println();
+            System.out.println();
+
+            System.out.println("CHECKING ACCOUNTS");
+            System.out.println("-----------------------------------------------------------" +
+                    "----------------------------------------------------------------------");
+            System.out.printf("%5s %10s %15s %25s %10s %10s %10s", "ACCOUNT NO", "BALANCE", "MONTHLY FEE",
+                    "NO OF CHECKS ALLOWED", "BSB NO", "ADDRESS", "POSTCODE");
+            System.out.println();
+            System.out.println("-----------------------------------------------------------" +
+                    "----------------------------------------------------------------------");
+            System.out.println();
+
+            for (BankAccount bankAccount: bankAccountList) {
+                if(bankAccount instanceof CheckingAccount){
+                    System.out.printf("%5s %10s %15s %25s %10s %10s %10s", bankAccount.getAccountNumber(),
+                            bankAccount.getAccountBalance(), ((CheckingAccount) bankAccount).getMonthlyFee(),
+                            ((CheckingAccount) bankAccount).getNoOfChecksAllowed(),
+                            bankAccount.getHomeBranch().getBsbNumber(), bankAccount.getHomeBranch().getAddress(),
+                            bankAccount.getHomeBranch().getPostcode());
+                    System.out.println();
+                    System.out.println("--------------------------------------------------------------------");
+//                    System.out.println();
+//                    System.out.println("--------------------------------------------------------------------");
+                }
+            }
+
+            System.out.println();
+            System.out.println();
+
+            System.out.println("CHECKING ACCOUNTS WITH INTEREST");
+            System.out.println("-----------------------------------------------------------" +
+                    "----------------------------------------------------------------------");
+            System.out.printf("%5s %10s %15s %25s %10s %10s %10s %10s", "ACCOUNT NO", "BALANCE($)", "INTEREST(%)", "MONTHLY FEE",
+                    "NO OF CHECKS ALLOWED", "BSB NO", "ADDRESS", "POSTCODE");
+            System.out.println();
+            System.out.println("-----------------------------------------------------------" +
+                    "----------------------------------------------------------------------");
+
+            for (BankAccount bankAccount: bankAccountList) {
+                if(bankAccount instanceof CheckingAccountWithInterest){
+                    System.out.printf("%5s %10s %15s %25s %10s %10s %10s %10s", bankAccount.getAccountNumber(),
+                            bankAccount.getAccountBalance(),
+                            ((CheckingAccountWithInterest) bankAccount).getSavingsAccount().getInterestRate(),
+                            ((CheckingAccountWithInterest) bankAccount).getMonthlyFee(),
+                            ((CheckingAccountWithInterest) bankAccount).getNoOfChecksAllowed(),
+                            bankAccount.getHomeBranch().getBsbNumber(), bankAccount.getHomeBranch().getAddress(),
+                            bankAccount.getHomeBranch().getPostcode());
+                    System.out.println();
+                    System.out.println("--------------------------------------------------------------------");
+                    System.out.println("--------------------------------------------------------------------");
+                }
+            }
+
+        }
+
     }
 
 }

@@ -49,7 +49,7 @@ public class CheckingAccountWithInterest extends CheckingAccount {
             customer.setBankAccountsList(Main.bankAccountList);
         }
         Main.customerList.add(customer);
-        Main.dataPersistency(Main.customerList);
+//        Main.dataPersistency(Main.customerList);
         System.out.println("=====Bank Account created successfully.=====");
         System.out.println();
 
